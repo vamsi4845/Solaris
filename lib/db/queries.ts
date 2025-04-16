@@ -46,6 +46,16 @@ export async function getUser(email: string): Promise<Array<User>> {
   }
 }
 
+export async function getUserByWalletAddress(walletAddress: string): Promise<User | undefined> {
+  try {
+    const users = await db.select().from(user).where(eq(user.wallet_address, walletAddress));
+    return users.length > 0 ? users[0] : undefined;
+  } catch (error) {
+    console.error('Failed to get user by wallet address from database');
+    throw error;
+  }
+}
+
 export async function createUser(email: string, password: string) {
   const salt = genSaltSync(10);
   const hash = hashSync(password, salt);
@@ -54,6 +64,27 @@ export async function createUser(email: string, password: string) {
     return await db.insert(user).values({ email, password: hash });
   } catch (error) {
     console.error('Failed to create user in database');
+    throw error;
+  }
+}
+
+export async function createUserWithWallet(walletAddress: string): Promise<User> {
+  try {
+    // Insert the new user
+    await db.insert(user).values({
+      wallet_address: walletAddress,
+      created_at: new Date(),
+      last_login: new Date()
+    });
+    
+    // Return the newly created user
+    const users = await db.select().from(user).where(eq(user.wallet_address, walletAddress));
+    if (users.length === 0) {
+      throw new Error('User was created but could not be retrieved');
+    }
+    return users[0];
+  } catch (error) {
+    console.error('Failed to create user with wallet in database', error);
     throw error;
   }
 }

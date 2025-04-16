@@ -11,10 +11,13 @@ import {
   boolean,
 } from 'drizzle-orm/pg-core';
 
+// Modified User table for Solana Wallet Authentication
 export const user = pgTable('User', {
-  id: uuid('id').primaryKey().notNull().defaultRandom(),
-  email: varchar('email', { length: 64 }).notNull(),
-  password: varchar('password', { length: 64 }),
+  id: uuid('id').primaryKey().notNull().defaultRandom(), // Keep internal UUID
+  wallet_address: varchar('wallet_address', { length: 44 }).notNull().unique(), // Store Solana address (Base58, typically 32-44 chars), make unique
+  email: varchar('email', { length: 64 }), // Removed email
+  created_at: timestamp('created_at').defaultNow().notNull(), // Added created_at
+  last_login: timestamp('last_login').defaultNow(), // Added last_login
 });
 
 export type User = InferSelectModel<typeof user>;
