@@ -4,12 +4,10 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Users, Search, CheckCircle } from "lucide-react";
-import { useWalletStatus } from "@/hooks/useWalletStatus";
 import { MainNavbar } from "@/components/ui/MainNavbar";
 
 export default function HomePage() {
   const router = useRouter();
-  const { isConnected } = useWalletStatus();
 
   const FADE_IN_VARIANTS = {
     hidden: { opacity: 0, y: 10 },

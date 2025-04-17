@@ -6,6 +6,8 @@ import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
 import { WalletContextProvider } from '@/providers/WalletProvider';
+import Privy from '@/providers/Privy';
+import { AuthWrapper } from '@/providers/AuthProvider';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://chat.vercel.ai'),
@@ -68,9 +70,11 @@ export default async function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <WalletContextProvider>
-          {children}
-        </WalletContextProvider>
+        <Privy>
+          <AuthWrapper>
+            {children}
+          </AuthWrapper>
+        </Privy>
       </body>
     </html>
   );

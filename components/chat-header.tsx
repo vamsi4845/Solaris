@@ -13,6 +13,7 @@ import { memo } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { type VisibilityType, VisibilitySelector } from './visibility-selector';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { PrivyAuthButton } from './privy-auth-button';
 
 function PureChatHeader({
   chatId,
@@ -42,7 +43,6 @@ function PureChatHeader({
               variant="outline"
               className="order-2 md:order-1 md:px-2 px-2 md:h-fit ml-auto md:ml-0"
               onClick={() => {
-                router.push('/Dashboard');
                 router.refresh();
               }}
             >
@@ -69,10 +69,7 @@ function PureChatHeader({
         />
       )}
       </div>
-
-        <WalletMultiButton style={{ height: '40px' }} />
-
-
+        <PrivyAuthButton />
     </header>
   );
 }
