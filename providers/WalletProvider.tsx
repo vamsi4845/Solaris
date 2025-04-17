@@ -1,47 +1,57 @@
-'use client';
+'use client'
+import { PrivyProvider } from "@privy-io/react-auth";
+import { toSolanaWalletConnectors } from "@privy-io/react-auth/solana";
+import { AuthWrapper } from "./AuthWrapper";
+export default function WalletProvider({ children }: { children: React.ReactNode }) {
+  return <PrivyProvider 
+  appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
+  clientId={process.env.NEXT_PUBLIC_PRIVY_CLIENT_ID || ""}
+  config={{
+  "appearance": {
+    "accentColor": "#EF8977",
+    "theme": "#FFFFFF",
+    "showWalletLoginFirst": true,
+    "logo": "https://auth.privy.io/logos/privy-logo.png",
+    "walletChainType": "solana-only",
+    "walletList": [
+      "phantom",
+      "solflare",
+      "backpack"
+      ]
+    },
+  "loginMethods": [
+    "email",
+    "wallet",
+    "google"
+  ],
+  "fundingMethodConfig": {
+    "moonpay": {
+      "useSandbox": true
+    }
+  },
+  "embeddedWallets": {
+    "requireUserPasswordOnCreate": false,
+    "showWalletUIs": true,
+    "ethereum": {
+      "createOnLogin": "off"
+    },
+    "solana": {
+      "createOnLogin": "users-without-wallets"
+    }
+  },
+  "mfa": {
+    "noPromptOnMfaRequired": false
+  },
+  "externalWallets": {
+    "solana": {
+      "connectors":  toSolanaWalletConnectors()
+    }
+  }
 
-import React, { FC, useMemo } from 'react';
-import { ConnectionProvider, WalletProvider as SolanaWalletProvider } from '@solana/wallet-adapter-react';
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
-import { clusterApiUrl } from '@solana/web3.js';
-import { AuthWrapper } from './AuthProvider';
-
-interface WalletContextProviderProps {
-  children: React.ReactNode;
+}}
+>
+  <AuthWrapper>
+  {children}
+  </AuthWrapper>
+</PrivyProvider>;
 }
-
-export const WalletContextProvider: FC<WalletContextProviderProps> = ({ children }) => {
-  // Define the network (mainnet-beta, testnet, or devnet)
-  const network = WalletAdapterNetwork.Mainnet; // Or WalletAdapterNetwork.Devnet / Testnet
-
-  // You can also provide a custom RPC endpoint
-  const endpoint = useMemo(() =>
-    process.env.NEXT_PUBLIC_SOLANA_RPC_URL || clusterApiUrl(network),
-    [network]
-  );
-
-  // Initialize the wallets you want to support
-  const wallets = useMemo(
-    () => [
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter({ network }), // Pass network if needed by adapter
-      // Add other wallets like Backpack, Glow, etc. if desired
-      // new BackpackWalletAdapter(),
-    ],
-    [network]
-  );
-
-  return (
-    <ConnectionProvider endpoint={endpoint}>
-      <SolanaWalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
-          <AuthWrapper>
-            {children}
-          </AuthWrapper>
-        </WalletModalProvider>
-      </SolanaWalletProvider>
-    </ConnectionProvider>
-  );
-};
