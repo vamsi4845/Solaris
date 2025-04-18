@@ -20,7 +20,7 @@ export function AIChat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      content: "Hello! I'm Damon's Wallet Management Agent. How can I help you today?",
+      content: "Hello! I'm Solaris AI Agent. How can I help you today?",
       role: "system",
     },
   ]);

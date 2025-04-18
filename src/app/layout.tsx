@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { SolanaWalletProvider } from '@/Providers/SolanaWalletProvider';
 
 const getPoppins = Poppins({
   subsets: ["latin"],
@@ -8,7 +9,7 @@ const getPoppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Sol-ai",
+  title: "Solaris AI",
   description: "An AI powered agent for Solana",
 };
 
@@ -22,7 +23,9 @@ export default function RootLayout({
       <body
         className={`${getPoppins.className}`}
       >
-        {children}
+        <SolanaWalletProvider>
+          {children}
+        </SolanaWalletProvider>
       </body>
     </html>
   );
