@@ -5,14 +5,11 @@ import { getLastXTransactions } from "../utils/helper";
 
 import { SolanaAgentKit } from "solana-agent-kit";
 
-const initializeSolanaAgent = () => {
   const agent = new SolanaAgentKit(
     process.env.NEXT_PUBLIC_SOLANA_PRIVATE_KEY!,
     process.env.NEXT_PUBLIC_SOLANA_RPC_URL!,
     process.env.NEXT_PUBLIC_OPENAI_API_KEY!,
   );
-  return agent;
-};
 
 interface CommandProps {
   [key: string]: string;
@@ -32,6 +29,12 @@ export default async function triggerCommand(
   const { action } = data;
   let response;
   switch (action) {
+    case "faucet":
+      response = await handleFaucetCommand();
+      return response;
+    case "price":
+      response = await handlePriceCommand();
+      return response;
     case "send":
       response = await handleSendCommand(data);
       return response;
@@ -56,6 +59,9 @@ export default async function triggerCommand(
     case "recent_transaction":
       response = await handleRecentTransactionCommand(publicKey, connection);
       return response;
+    case "launch_nft":
+      response = await handleLaunchNFTCommand(data);
+      return response;
     default:
       response = {
         message: data.message,
@@ -64,6 +70,74 @@ export default async function triggerCommand(
       return response;
   }
 }
+
+
+const handleFaucetCommand = async () => {
+  try {
+    const response = await agent.requestFaucetFunds();
+    console.log("response", response);
+    return {
+      message: "Faucet request sent successfully.",
+      status: "success",
+    };
+  } catch (error: any) {
+    console.error("Faucet request failed:", error);
+
+    let errorMessage = "Failed to request faucet funds. Please try again later.";
+
+    // Check if the error message contains the specific faucet 429 response
+    if (error instanceof Error && error.message.includes('"code": 429')) {
+      try {
+        // Extract the JSON part of the error message
+        const jsonStringMatch = error.message.match(/(\{.*\})/);
+        if (jsonStringMatch && jsonStringMatch[1]) {
+          const errorJson = JSON.parse(jsonStringMatch[1]);
+          if (errorJson.error && errorJson.error.message) {
+            // Use the specific message from the faucet response
+            errorMessage = errorJson.error.message;
+          }
+        }
+      } catch (parseError) {
+        console.error("Failed to parse faucet error JSON:", parseError);
+        // Keep the generic message if parsing fails
+      }
+    }
+
+    return {
+      message: errorMessage,
+      status: "error",
+    };
+  }
+};
+
+const handlePriceCommand = async () => {
+  try {
+    const responseString = await agent.fetchTokenPrice(
+      "So11111111111111111111111111111111111111112", // Assuming SOL price for now, might need parameterization later
+    );
+    console.log("Fetched token price string:", responseString);
+
+    // Parse the string response to a number
+    const price = parseFloat(responseString);
+    let message: string;
+
+    // Check if parsing was successful and format
+    if (!isNaN(price)) {
+      const formattedPrice = price.toFixed(2);
+      message = `SOL Price is ${formattedPrice}$`;
+    } else {
+      // Handle case where response is not a valid number string
+      console.error("Received non-numeric price string:", responseString);
+      message = "Could not determine the current SOL price.";
+       return { status: 'error', error: 'Received invalid price data.' }; // Return error status
+    }
+
+    return { message: message, status: 'success' };
+  } catch (error) {
+    console.error("Error fetching token price:", error);
+    return { status: 'error', error: 'Failed to fetch token price. Please try again.' };
+  }
+};
 
 const handleSendCommand = async (data: CommandProps) => {
   const { amount, toPublicKey } = data;
@@ -81,7 +155,6 @@ const handleSendCommand = async (data: CommandProps) => {
     };
   }
   try {
-    const agent = initializeSolanaAgent();
 
     const signature = await agent.transfer(
       new PublicKey(toPublicKey),
@@ -111,6 +184,12 @@ const handleSendCommand = async (data: CommandProps) => {
 };
 
 const handleBuyCommand = async () => {
+  const response = await agent.trade(
+    new PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"),
+    1,
+    new PublicKey("So11111111111111111111111111111111111111112"),
+  );
+  console.log("response", response);
   return {
     message:
       "**Buy Command isn't implemented yet. ☹️**" +
@@ -173,7 +252,7 @@ const handleCreateTokenCommand = async (data: CommandProps) => {
     };
   }
   try {
-    const agent = initializeSolanaAgent();
+    console.log("in")
     const mintPublicKey = await agent.deployToken(
       tokenName,
       uri,
@@ -218,7 +297,6 @@ const handleCheckBalanceCommand = async (publicKey: PublicKey) => {
       status: "error",
     };
   }
-  const agent = initializeSolanaAgent();
 
   const balance = await agent.getBalance();
 
@@ -228,8 +306,6 @@ const handleCheckBalanceCommand = async (publicKey: PublicKey) => {
   };
 };
 const handleGetAddressCommand = async () => {
-  const agent = initializeSolanaAgent();
-
   return {
     message: `Your address is ${agent.wallet.publicKey.toString()}.`,
     status: "success",
@@ -255,6 +331,8 @@ const handleTransactionStatusCommand = async (
     status: "success",
   };
 };
+
+
 const handleRecentTransactionCommand = async (
   publicKey: PublicKey,
   connection: Connection,
@@ -265,7 +343,6 @@ const handleRecentTransactionCommand = async (
       status: "error",
     };
   }
-  const agent = initializeSolanaAgent();
   const transactions = await getLastXTransactions(
     agent.wallet.publicKey.toString(),
     connection,
@@ -288,3 +365,29 @@ const handleRecentTransactionCommand = async (
     status: "success",
   };
 };
+
+const handleLaunchNFTCommand = async (data: CommandProps) => {
+  const { nftName, uri } = data;
+  if (!nftName || !uri) {
+    return {
+      message: "Please provide all the required details for NFT creation",
+      status: "error",
+    };
+  }
+  try {
+      const mintPublicKey = await agent.deployCollection({
+        name:nftName,
+        uri: uri,
+      })
+
+    console.log("mintPublicKey", mintPublicKey);
+  } catch (error: any) {
+    console.error("NFT launch failed:", error);
+    return {
+      message: `Failed to launch NFT: ${error.message || 'Unknown error'}`,
+      status: "error",
+    };
+  }
+};
+
+

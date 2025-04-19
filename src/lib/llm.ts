@@ -25,6 +25,7 @@ export async function GPTResponse(chatHistory: Message[]) {
             action: {
               type: "string",
               enum: [
+                "faucet",
                 "send",
                 "buy",
                 "swap",
@@ -33,6 +34,8 @@ export async function GPTResponse(chatHistory: Message[]) {
                 "create_token",
                 "transaction_status",
                 "recent_transaction",
+                "launch_nft",
+                "price",
                 "not_found",
               ],
             },
@@ -63,6 +66,10 @@ export async function GPTResponse(chatHistory: Message[]) {
             tokenDecimals: {
               type: "number",
               description: "Token decimals",
+            },
+            nftName: { 
+              type: "string",
+              description: "NFT collection name",
             },
             uri: {
               type: "string",

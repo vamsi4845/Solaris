@@ -31,7 +31,9 @@ export function AIChat() {
     "Give last 5 transactions",
     "How much SOL do I have?",
     "What is my Public Address?",
-    "Create Token Named GOKU and assume other details",
+    "Create Token Named Solaris and assume other details",
+    "Faucet",
+    "Launch NFT Collection Named Solaris and assume other details",
   ];
 
   useEffect(() => {

@@ -7,7 +7,7 @@ export default function Home() {
     <div className="bg-black text-white overflow-hidden">
       <BackgroundGrid />
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-1 gap-4 px-4 py-4">
-        <WalletDashboard />
+        {/* <WalletDashboard /> */}
         <AIChat />
       </div>
     </div>
