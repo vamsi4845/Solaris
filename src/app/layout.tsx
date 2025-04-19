@@ -1,17 +1,11 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { SolanaWalletProvider } from '@/Providers/SolanaWalletProvider';
+import { SolanaWalletProvider } from "@/Providers/SolanaWalletProvider";
 
-const getPoppins = Poppins({
+const fontSans = Inter({
   subsets: ["latin"],
-  weight: "400",
+  variable: "--font-sans",
 });
-
-export const metadata: Metadata = {
-  title: "Solaris AI",
-  description: "An AI powered agent for Solana",
-};
 
 export default function RootLayout({
   children,
@@ -20,9 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${getPoppins.className}`}
-      >
+      <body className={`${fontSans.variable} font-sans antialiased`}>
         <SolanaWalletProvider>
           {children}
         </SolanaWalletProvider>

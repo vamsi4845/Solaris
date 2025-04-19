@@ -7,6 +7,7 @@ import { clusterApiUrl } from '@solana/web3.js';
 import LandingPage from '@/components/Landing/LandingPage';
 
 import '@solana/wallet-adapter-react-ui/styles.css';
+import { QueryProvider } from './QueryProvider';
 
 interface Props {
   children: ReactNode;
@@ -34,6 +35,7 @@ export const SolanaWalletProvider: FC<Props> = ({ children }) => {
   );
 
   return (
+    <QueryProvider>
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
@@ -41,5 +43,6 @@ export const SolanaWalletProvider: FC<Props> = ({ children }) => {
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
+    </QueryProvider>
   );
 }; 

@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 
 export default {
-    darkMode: ["class"],
     content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -43,6 +43,14 @@ export default {
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
+			sidebar: 'hsl(var(--sidebar))',
+			sidebarForeground: 'hsl(var(--sidebar-foreground))',
+			sidebarPrimary: 'hsl(var(--sidebar-primary))',
+			sidebarPrimaryForeground: 'hsl(var(--sidebar-primary-foreground))',
+			sidebarAccent: 'hsl(var(--sidebar-accent))',
+			sidebarAccentForeground: 'hsl(var(--sidebar-accent-foreground))',
+			sidebarBorder: 'hsl(var(--sidebar-border))',
+			sidebarRing: 'hsl(var(--sidebar-ring))',
   			chart: {
   				'1': 'hsl(var(--chart-1))',
   				'2': 'hsl(var(--chart-2))',
@@ -58,5 +66,5 @@ export default {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [animate],
 } satisfies Config;

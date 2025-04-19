@@ -90,7 +90,7 @@ export function AIChat() {
   };
 
   return (
-    <Card className="flex flex-col h-screen backdrop-blur-xl bg-black/40 border-purple-500/20">
+    <Card className="flex flex-col h-screen backdrop-blur-xl bg-destructive border-purple-500/20">
       <div className="p-4 space-y-4 overflow-y-auto flex-1">
         <AnimatePresence>
           {messages.map((message) => (
