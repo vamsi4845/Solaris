@@ -1,23 +1,20 @@
 import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { useQuery } from "@tanstack/react-query";
-import { getBalance, getLastXTransactions, getTokenBalance } from "@/utils/helper";
+import { getBalance, getLastXTransactions, getPrice} from "@/utils/helper";
+import { WalletData } from "@/utils/types";
 
-interface WalletData {
-  balance: number;
-  transactions: any[]; 
-  tokenBalances: any[];
-}
+
 
 async function fetchWalletData(publicKey: string, connection: Connection): Promise<WalletData> {
-  const [balance, transactions, tokenBalances] = await Promise.all([
+  const [balance, transactions, price] = await Promise.all([
     getBalance(publicKey, connection),
-    getLastXTransactions(publicKey, connection, 5),
-    getTokenBalance(publicKey, connection),
+    getLastXTransactions(publicKey, connection, 15),
+    getPrice('solana')
   ]);
   return {
     balance: balance / LAMPORTS_PER_SOL,
     transactions,
-    tokenBalances,
+    price
   };
 }
 

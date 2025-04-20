@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
       {
         hostname: "res.cloudinary.com",
       },
+      {
+        hostname: "coin-images.coingecko.com",
+      },
+      {
+        hostname: "s2.coinmarketcap.com",
+      },
     ],
   },
 };

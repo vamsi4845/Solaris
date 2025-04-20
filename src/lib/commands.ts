@@ -1,7 +1,7 @@
 "use client"
 
 import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
-import { getLastXTransactions } from "../utils/helper";
+import { getCoinGeckoId, getLastXTransactions, getPrice } from "../utils/helper";
 
 import { SolanaAgentKit } from "solana-agent-kit";
 
@@ -33,7 +33,7 @@ export default async function triggerCommand(
       response = await handleFaucetCommand();
       return response;
     case "price":
-      response = await handlePriceCommand();
+      response = await handlePriceCommand(data);
       return response;
     case "send":
       response = await handleSendCommand(data);
@@ -110,29 +110,16 @@ const handleFaucetCommand = async () => {
   }
 };
 
-const handlePriceCommand = async () => {
+const handlePriceCommand = async (data: CommandProps) => {
+  const { tokenName } = data;
+  const coinGeckoId = getCoinGeckoId(tokenName)
+  console.log(coinGeckoId)
+  if (!coinGeckoId) {
+    return { message: `Currently we don't support this token.`, status: 'error' };
+  }
   try {
-    const responseString = await agent.fetchTokenPrice(
-      "So11111111111111111111111111111111111111112", // Assuming SOL price for now, might need parameterization later
-    );
-    console.log("Fetched token price string:", responseString);
-
-    // Parse the string response to a number
-    const price = parseFloat(responseString);
-    let message: string;
-
-    // Check if parsing was successful and format
-    if (!isNaN(price)) {
-      const formattedPrice = price.toFixed(2);
-      message = `SOL Price is ${formattedPrice}$`;
-    } else {
-      // Handle case where response is not a valid number string
-      console.error("Received non-numeric price string:", responseString);
-      message = "Could not determine the current SOL price.";
-       return { status: 'error', error: 'Received invalid price data.' }; // Return error status
-    }
-
-    return { message: message, status: 'success' };
+    const price = await getPrice(coinGeckoId)
+    return { message: `${tokenName} Price is ${price.toFixed(2)}$`, status: 'success' };
   } catch (error) {
     console.error("Error fetching token price:", error);
     return { status: 'error', error: 'Failed to fetch token price. Please try again.' };

@@ -6,7 +6,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { RiSettingsLine } from "@remixicon/react";
 import * as React from "react";
 import { createContext, ReactNode, useCallback, useContext, useMemo, useState } from "react";
-import { WalletUi } from "./wallet-ui";
+import { WalletUi } from "./wallet/wallet-ui";
+import { Wallet } from "./wallet/Wallet";
 
 type Settings = {
   maxTokens: number | null;
@@ -77,7 +78,7 @@ export function useSettingsPanel() {
 const SettingsPanelContent = () => {
   // const { settings, updateSettings } = useSettingsPanel(); // Access settings if needed
   return (
-      <WalletUi />
+    <Wallet/>
   );
 };
 SettingsPanelContent.displayName = "SettingsPanelContent";
