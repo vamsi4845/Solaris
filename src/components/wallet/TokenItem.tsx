@@ -6,7 +6,7 @@ export default function TokenItem({ walletData }: { walletData: any }) {
       <motion.li
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between py-3 px-4  rounded-lg transition-colors duration-150"
+        className="flex items-center justify-between py-2 px-4  rounded-lg transition-colors duration-150"
       >
         <div className="flex items-center gap-3">
           <Image

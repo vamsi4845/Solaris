@@ -83,7 +83,7 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
         <ScrollArea className="h-full px-4 pb-4">
           {transactions && transactions.length > 0 ? (
             <AnimatedList delay={200}>
-              {transactions.map((tx) => (
+              {[...transactions].reverse().map((tx) => (
                 <TransactionItem key={tx.signature} tx={tx} />
               ))}
             </AnimatedList>

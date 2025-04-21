@@ -23,4 +23,5 @@ export interface WalletData {
   balance: number;
   transactions: Transaction[]; 
   price: number;
+  address: string;
 }

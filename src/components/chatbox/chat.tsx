@@ -1,6 +1,6 @@
 "use client";
 
-import { ChatMessage } from "@/components/chat-message";
+import { ChatMessage } from "@/components/chatbox/chat-message";
 import { ScrollArea } from "@/components/scroll-area";
 import AIResponse from "@/lib/ai-response";
 import { cn } from "@/lib/utils";
@@ -8,7 +8,7 @@ import { Message } from "@/utils/types";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { SettingsPanelTrigger } from "./settings-panel";
+import { SettingsPanelTrigger } from "@/components/settings-panel";
 import { AudioLines, Bot, Mic } from "lucide-react";
 
 interface SpeechRecognitionResult {

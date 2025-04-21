@@ -8,8 +8,8 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-export async function GPTResponse(chatHistory: Message[]) {
-  chatHistory = [{ role: "system", content: SYSTEM_PROMPT }, ...chatHistory];
+export async function GPTResponse(chatHistory: Message[], savedWallets: any) {
+  chatHistory = [{ role: "system", content: SYSTEM_PROMPT },savedWallets, ...chatHistory];
 
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",

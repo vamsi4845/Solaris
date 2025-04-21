@@ -3,14 +3,14 @@
 import { useSliderWithInput } from "@/hooks/use-slider-with-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/label";
-import { Slider } from "@/components/slider";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/tooltip";
+} from "@/components/ui/tooltip";
 import { RiRefreshLine } from "@remixicon/react";
 import { cn } from "@/lib/utils";
 

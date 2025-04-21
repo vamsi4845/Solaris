@@ -15,6 +15,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "s2.coinmarketcap.com",
       },
+      {
+        hostname: "api.dicebear.com",
+      },
     ],
   },
 };

@@ -8,13 +8,14 @@ import { WalletData } from "@/utils/types";
 async function fetchWalletData(publicKey: string, connection: Connection): Promise<WalletData> {
   const [balance, transactions, price] = await Promise.all([
     getBalance(publicKey, connection),
-    getLastXTransactions(publicKey, connection, 15),
+    getLastXTransactions(publicKey, connection, 13),
     getPrice('solana')
   ]);
   return {
     balance: balance / LAMPORTS_PER_SOL,
     transactions,
-    price
+    price,
+    address: publicKey?.toString()
   };
 }
 

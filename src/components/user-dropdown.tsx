@@ -1,4 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
+'use client'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -6,24 +7,21 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/dropdown-menu";
-
-import {
-  RiLogoutCircleLine,
-  RiTimer2Line,
-  RiUserLine,
-  RiFindReplaceLine,
-  RiPulseLine,
-} from "@remixicon/react";
+} from "@/components/ui/dropdown-menu";
+import { RiLogoutCircleLine, RiWallet3Fill } from "@remixicon/react";
+import { AddWalletDialog } from "./wallet/add-wallet-dialog";
+import { useState } from "react";
 
 export default function UserDropdown() {
+  const [dropdownOpen, setDropdownOpen] = useState(true);
+
   return (
-    <DropdownMenu>
+    <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
           <Avatar className="size-8">
             <AvatarImage
-              src="https://res.cloudinary.com/dlzlfasou/image/upload/v1741345634/user-02_mlqqqt.png"
+              src="/avatar.jpg"
               width={32}
               height={32}
               alt="Profile image"
@@ -41,38 +39,24 @@ export default function UserDropdown() {
             mary@askdigital.com
           </span>
         </DropdownMenuLabel>
-        <DropdownMenuItem className="gap-3 px-1">
-          <RiTimer2Line
-            size={20}
-            className="text-muted-foreground/70"
-            aria-hidden="true"
-          />
-          <span>Dashboard</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="gap-3 px-1">
-          <RiUserLine
-            size={20}
-            className="text-muted-foreground/70"
-            aria-hidden="true"
-          />
-          <span>Profile</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="gap-3 px-1">
-          <RiPulseLine
-            size={20}
-            className="text-muted-foreground/70"
-            aria-hidden="true"
-          />
-          <span>Changelog</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="gap-3 px-1">
-          <RiFindReplaceLine
-            size={20}
-            className="text-muted-foreground/70"
-            aria-hidden="true"
-          />
-          <span>History</span>
-        </DropdownMenuItem>
+        <AddWalletDialog>
+          <DropdownMenuItem
+            className="gap-3 px-1 hover:border-none"
+            asChild
+            onSelect={(e) => {
+              e.preventDefault();
+            }}
+          >
+            <div className="flex items-center gap-3 w-full px-2 py-1.5 cursor-pointer">
+              <RiWallet3Fill
+                size={20}
+                className="text-muted-foreground/70"
+                aria-hidden="true"
+              />
+              <span>Wallet List</span>
+            </div>
+          </DropdownMenuItem>
+        </AddWalletDialog>
         <DropdownMenuItem className="gap-3 px-1">
           <RiLogoutCircleLine
             size={20}

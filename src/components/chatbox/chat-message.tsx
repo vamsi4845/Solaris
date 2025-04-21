@@ -5,7 +5,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/tooltip";
+} from "@/components/ui/tooltip";
 import {
   RiCodeSSlashLine,
   RiBookLine,
@@ -35,7 +35,7 @@ export function ChatMessage({ isUser, children }: ChatMessageProps) {
         )}
         src={
           isUser
-            ? "https://res.cloudinary.com/dlzlfasou/image/upload/v1741345634/user-02_mlqqqt.png"
+            ? "/avatar.jpg"
             : "https://res.cloudinary.com/dlzlfasou/image/upload/v1741345634/user-01_i5l7tp.png"
         }
         alt={isUser ? "User profile" : "Bart logo"}

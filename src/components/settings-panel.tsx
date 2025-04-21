@@ -1,6 +1,6 @@
 "use client";
 
-import { Sheet, SheetContent, SheetTitle } from "@/components/sheet";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { RiSettingsLine } from "@remixicon/react";

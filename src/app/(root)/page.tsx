@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: "Solaris",
 };
 
-import Chat from "@/components/chat";
+import Chat from "@/components/chatbox/chat";
 import {
   SettingsPanel,
   SettingsPanelProvider,

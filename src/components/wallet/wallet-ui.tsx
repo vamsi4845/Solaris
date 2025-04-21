@@ -1,46 +1,66 @@
 "use client";
 
 import TokenItem from "./TokenItem";
+import { Copy, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
-export function WalletUi({ walletData}: { walletData: any}) {
+interface WalletData {
+  balance: number;
+  price: number;
+  address: string;
+  transactions?: Array<unknown>;
+}
 
+export function WalletUi({ walletData }: { walletData: WalletData }) {
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    if (walletData?.address) {
+      await navigator.clipboard.writeText(walletData.address);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }
+  };
+
+  const truncateAddress = (address: string) => {
+    if (!address) return "";
+    return `${address.slice(0, 4)}...${address.slice(-4)}`;
+  };
 
   return (
     <div className="flex flex-col h-full p-1 dark text-primary-foreground bg-card/64 rounded-lg md:min-w-[260px]">
       {/* Balance Section */}
-      <div className="mb-4 text-center">
+      <div className="mb-1 text-center">
         <div className="text-sm text-muted-foreground mb-1">Total Balance</div>
         <div className="text-3xl font-semibold">
-            <div className="flex flex-col">
-              <span>${(walletData?.balance * walletData?.price).toFixed(2)}</span>
-            </div>
+          <div className="flex flex-col">
+            <span>${(walletData?.balance * walletData?.price).toFixed(2)}</span>
+          </div>
         </div>
       </div>
 
-      {/* Action Buttons */}
-      {/* <div className="flex justify-around items-center mb-6 gap-3">
-        <Button
-          variant="ghost"
-          className="flex flex-col items-center h-auto px-2 py-1 text-xs hover:bg-card/80"
-        >
-          <RiAddCircleLine size={20} className="mb-1" />
-          Buy
-        </Button>
-        <Button
-          variant="ghost"
-          className="flex flex-col items-center h-auto px-2 py-1 text-xs hover:bg-card/80"
-        >
-          <RiArrowUpCircleLine size={20} className="mb-1" />
-          Send
-        </Button>
-        <Button
-          variant="ghost"
-          className="flex flex-col items-center h-auto px-2 py-1 text-xs hover:bg-card/80"
-        >
-          <RiArrowDownCircleLine size={20} className="mb-1" />
-          Receive
-        </Button>
-      </div> */}
+      {/* Address Section */}
+      {walletData?.address && (
+        <div className="flex items-center justify-center gap-2">
+          <Button
+            size="sm"
+            className={cn(
+              "flex items-center gap-2 !bg-[#eaeaec] !hover:bg-[#eaeaec] text-xs font-mono transition-colors duration-200 shadow-none",
+              copied ? "text-green-500" : "text-muted-foreground hover:text-muted-foreground hover:bg-transparent"
+            )}
+            onClick={copyToClipboard}
+          >
+            <span>{truncateAddress(walletData.address)}</span>
+            {copied ? (
+              <Check className="h-3 w-3" />
+            ) : (
+              <Copy className="h-3 w-3" />
+            )}
+          </Button>
+        </div>
+      )}
 
       {/* Token List Section */}
       <div className="flex-1 flex flex-col min-h-0">

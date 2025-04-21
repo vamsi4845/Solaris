@@ -9,15 +9,15 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/separator";
-import { Sheet, SheetTitle, SheetContent } from "@/components/sheet";
-import { Skeleton } from "@/components/skeleton";
+import { Sheet, SheetTitle, SheetContent } from "@/components/ui/sheet";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/scroll-area";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/tooltip";
+} from "@/components/ui/tooltip";
 import { RiSkipLeftLine, RiSkipRightLine } from "@remixicon/react";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state";
