@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { SettingsPanelTrigger } from "@/components/settings-panel";
 import { AudioLines, Bot, Mic } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface SpeechRecognitionResult {
   0: {
@@ -67,6 +68,7 @@ export default function Chat() {
   const messageRef = useRef<HTMLDivElement>(null);
   const { publicKey, sendTransaction } = useWallet();
   const { connection } = useConnection();
+  const queryClient = useQueryClient();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -175,6 +177,11 @@ export default function Chat() {
       sendTransaction,
       connection
     );
+    console.log(AIResponseText)
+    if (AIResponseText?.action === "send" && AIResponseText?.status === "success"){
+      console.log("invalidating wallet data")
+        queryClient.invalidateQueries({ queryKey: ["wallet-data", publicKey?.toString()] });
+    }
     const aiMessage: Message = {
       id: messages.length + 2,
       content: AIResponseText?.message as string,

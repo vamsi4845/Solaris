@@ -131,6 +131,7 @@ const handleSendCommand = async (data: CommandProps) => {
   if (!amount || !toPublicKey) {
     return {
       message: "Please provide the amount and recipient address.",
+      action:"send",
       status: "error",
     };
   }
@@ -138,6 +139,7 @@ const handleSendCommand = async (data: CommandProps) => {
   if (isNaN(parsedAmount) || parsedAmount <= 0) {
     return {
       message: "Invalid amount. Please provide a valid amount.",
+      action:"send",
       status: "error",
     };
   }
@@ -147,7 +149,6 @@ const handleSendCommand = async (data: CommandProps) => {
       new PublicKey(toPublicKey),
       parsedAmount,
     );
-    console.log(signature);
     if (signature) {
       return {
         message:
@@ -159,12 +160,14 @@ const handleSendCommand = async (data: CommandProps) => {
           "check on [Explorer](https://solscan.io/tx/" +
           signature +
           "?cluster=devnet)",
+          action:"send",
         status: "success",
       };
     }
   } catch (error) {
     return {
       message: "Failed to send transaction.",
+      action:"send",
       status: "error",
     };
   }
@@ -295,6 +298,7 @@ const handleCheckBalanceCommand = async (publicKey: PublicKey) => {
 const handleGetAddressCommand = async () => {
   return {
     message: `Your address is ${agent.wallet.publicKey.toString()}.`,
+    action:"get_address",
     status: "success",
   };
 };

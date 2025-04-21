@@ -25,3 +25,8 @@ export interface WalletData {
   price: number;
   address: string;
 }
+
+export interface SavedWallet {
+  name: string;
+  address: string;
+}

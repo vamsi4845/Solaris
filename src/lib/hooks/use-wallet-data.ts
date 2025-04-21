@@ -24,7 +24,6 @@ export function useWalletData(publicKey: PublicKey | null, connection: Connectio
     queryKey: ["wallet-data", publicKey?.toString()],
     queryFn: () => fetchWalletData(publicKey!.toString(), connection),
     enabled: !!publicKey, // Only run query if publicKey exists
-    refetchInterval: 10000, // Refetch every 10 seconds
-    staleTime: 5000, // Consider data stale after 5 seconds
+    refetchInterval: 5000, // Refetch every 1 seconds
   });
 } 
