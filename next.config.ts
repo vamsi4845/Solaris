@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "api.dicebear.com",
       },
+      {
+        hostname: "static.jup.ag",
+      },
     ],
   },
 };

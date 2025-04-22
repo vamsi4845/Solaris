@@ -7,7 +7,11 @@ export const ConnectWallet: FC = () => {
 
   return (
     <div className="flex items-center justify-center">
-      <WalletMultiButton className="!bg-primary hover:!bg-primary/90" />
+      <WalletMultiButton 
+        className="!bg-black hover:!bg-black/90 !p-2"
+      >
+        {publicKey ? 'Connected' : 'Login'}
+      </WalletMultiButton>
     </div>
   );
 }; 

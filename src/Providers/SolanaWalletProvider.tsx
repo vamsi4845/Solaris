@@ -24,7 +24,7 @@ const WalletProviderInner: FC<Props> = ({ children }) => {
 };
 
 export const SolanaWalletProvider: FC<Props> = ({ children }) => {
-  const endpoint = useMemo(() => process.env.NEXT_PUBLIC_SOLANA_RPC_URL || clusterApiUrl('devnet'), []);
+  const endpoint = useMemo(() => process.env.NEXT_PUBLIC_SOLANA_RPC_URL || clusterApiUrl('mainnet-beta'), []);
 
   const wallets = useMemo(
     () => [

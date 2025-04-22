@@ -1,13 +1,14 @@
 "use client"
 
 import { WalletContextState } from "@solana/wallet-adapter-react";
-import { Connection } from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
 import { Message, SavedWallet } from "../utils/types"; // Import SavedWallet
 import triggerCommand from "./commands";
 import { GPTResponse } from "./llm";
 
 export default async function AIResponse(
   chatHistory: Message[],
+  publicKey: PublicKey,
   wallet: WalletContextState,
   connection: Connection,
 ) {

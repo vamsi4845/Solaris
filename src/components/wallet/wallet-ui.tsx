@@ -5,20 +5,14 @@ import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Portfolio } from "@/utils/types";
 
-interface WalletData {
-  balance: number;
-  price: number;
-  address: string;
-  transactions?: Array<unknown>;
-}
-
-export function WalletUi({ walletData }: { walletData: WalletData }) {
+export function WalletUi({ portfolio }: { portfolio: Portfolio }) {
   const [copied, setCopied] = useState(false);
-
+  console.log("22222",portfolio);
   const copyToClipboard = async () => {
-    if (walletData?.address) {
-      await navigator.clipboard.writeText(walletData.address);
+    if (portfolio?.address) {
+      await navigator.clipboard.writeText(portfolio.address);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     }
@@ -36,13 +30,13 @@ export function WalletUi({ walletData }: { walletData: WalletData }) {
         <div className="text-sm text-muted-foreground mb-1">Total Balance</div>
         <div className="text-3xl font-semibold">
           <div className="flex flex-col">
-            <span>${(walletData?.balance * walletData?.price).toFixed(2)}</span>
+            <span>${(portfolio?.totalValueUSD).toFixed(2)}</span>
           </div>
         </div>
       </div>
 
       {/* Address Section */}
-      {walletData?.address && (
+      {portfolio?.address && (
         <div className="flex items-center justify-center gap-2">
           <Button
             size="sm"
@@ -52,7 +46,7 @@ export function WalletUi({ walletData }: { walletData: WalletData }) {
             )}
             onClick={copyToClipboard}
           >
-            <span>{truncateAddress(walletData.address)}</span>
+            <span>{truncateAddress(portfolio.address)}</span>
             {copied ? (
               <Check className="h-3 w-3" />
             ) : (
@@ -67,7 +61,9 @@ export function WalletUi({ walletData }: { walletData: WalletData }) {
         <h3 className="text-sm font-medium text-muted-foreground px-2">
           Your Tokens
         </h3>
-        <TokenItem walletData={walletData} />
+        {[portfolio.solBalance, ...portfolio.tokenHoldings].filter((token) => token.valueUSD > 0).map((token,index) => (
+          <TokenItem key={index} token={token} />
+        ))}
       </div>
     </div>
   );

@@ -103,8 +103,8 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         minWidth: "800px",
       }}
       className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start  py-2  shadow-xl lg:flex dark:border-white/30 dark:bg-black bg-gray-700/20 px-2 rounded-2xl border border-white/10 backdrop-blur-md ",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
+        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start  py-2  shadow-xl lg:flex bg-white/80 text-gray-600 px-2 rounded-2xl border border-white/70 backdrop-blur-md ",
+        visible && "bg-neutral-950/80",
         className,
       )}
     >
@@ -165,8 +165,8 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         damping: 50,
       }}
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-        visible && "bg-white/80 dark:bg-neutral-950/80",
+        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between px-0 py-2 lg:hidden bg-neutral-950/80",
+        visible && "bg-neutral-950/80",
         className,
       )}
     >
@@ -237,10 +237,11 @@ export const NavbarLogo = () => {
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
       <Image
-        src="/globe.svg"
+        src="/logo.png"
         alt="logo"
         width={30}
         height={30}
+        className="rounded-full"
       />
       <span className="font-medium text-black dark:text-white">Solaris AI</span>
     </Link>

@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { SettingsPanelTrigger } from "@/components/settings-panel";
 import { AudioLines, Bot, Mic } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 
 interface SpeechRecognitionResult {
   0: {
@@ -78,19 +79,24 @@ export default function Chat() {
   ]);
 
   const suggestions = [
-    { label: "Recent Transactions", value: "Give last 5 transactions" },
-    { label: "SOL Balance", value: "How much SOL do I have?" },
-    { label: "My Address", value: "What is my Public Address?" },
-    { label: "Create Token", value: "Create Token Named Solaris and assume other details" },
-    { label: "Faucet", value: "Faucet" },
-    { label: "Launch NFTs", value: "Launch NFT Collection Named Solaris and assume other details" },
+    { label: "Recent Transactions", value: "What's my 5 recent transactions?" },
+    { label: "Create Token", value: "Create a Solaris Token" },
+    { label: "SOL Balance", value: "What's my SOL balance?" },
+    { label: "Launch NFTs", value: "Launch a Solaris NFT Collection" },
+    { label: "Faucet", value: "Request devnet SOL from faucet" },
+    { label: "Stake", value: "Stake 0.01 SOL to a validator" },
+    { label: "My Address", value: "What's my wallet address?" },
+    {label:"Swap", value:"Swap 0.01 SOL for USDC"}
   ];
 
   useEffect(() => {
-    if (messageRef.current) {
-      messageRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ 
+        behavior: "smooth",
+        block: "end"
+      });
     }
-  }, [messages]);
+  }, [messages, isTyping]); 
 
   useEffect(() => {
     const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -257,9 +263,9 @@ export default function Chat() {
             </div>
           </div>
         </div>
-        <div className="relative grow">
-          <div className="max-w-5xl mx-auto mt-6 space-y-6">
-            <AnimatePresence>
+        <div className="relative grow overflow-y-auto">
+          <div className="max-w-5xl mx-auto mt-6 space-y-6 pb-10" >
+            <AnimatePresence mode="wait">
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
@@ -277,9 +283,9 @@ export default function Chat() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-2 text-muted-foreground"
+                className="flex items-center gap-2 text-muted-foreground rounded-full"
               >
-                <Bot className="size-4" />
+               <Image src="/logo.png" alt="logo" width={32} height={32} className="rounded-full" />
                 <div className="flex gap-1">
                   <motion.div
                     animate={{ y: [0, -5, 0] }}
@@ -296,16 +302,26 @@ export default function Chat() {
                     transition={{ duration: 0.5, repeat: Infinity, delay: 0.4 }}
                     className="size-1 bg-current rounded-full"
                   />
+                  <motion.div
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ duration: 0.5, repeat: Infinity, delay: 0.6 }}
+                    className="size-1 bg-current rounded-full"
+                  />
+                  <motion.div
+                    animate={{ y: [0, -5, 0] }}
+                    transition={{ duration: 0.5, repeat: Infinity, delay: 0.8 }}
+                    className="size-1 bg-current rounded-full"
+                  />
                 </div>
               </motion.div>
             )}
-            <div ref={messagesEndRef} aria-hidden="true" />
+            <div ref={messagesEndRef} aria-hidden="true" className="h-14" />
           </div>
         </div>
         <div className="sticky bottom-0 z-50 flex flex-col gap-2">
           {messages.filter(message => message.role === "user").length < 1 && (
             <div className="w-full max-w-5xl mx-auto">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 px-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 px-4">
               {suggestions.map((suggestion, index) => (
                 <motion.button
                   key={index}
@@ -317,7 +333,7 @@ export default function Chat() {
                     ease: "easeOut"
                   }}
                   className={cn(
-                    "px-4 py-2.5 rounded-2xl text-sm text-muted-foreground",
+                    "px-4 py-2.5 rounded-2xl text-sm text-muted-foreground flex items-center justify-center",
                     "bg-muted/50 hover:bg-muted focus:bg-muted",
                     "border border-transparent hover:border-border",
                     "transition-all duration-200",
@@ -354,7 +370,7 @@ export default function Chat() {
                   }}
                 />
                 <button
-                    className={`absolute right-3 bottom-3 ${isListening ? 'bg-red-500 animate-pulse shadow-lg shadow-red-500/50' : 'text-muted-foreground'} rounded-full p-1.5 transition-all duration-300`}
+                    className={`absolute right-3 bottom-3 cursor-pointer ${isListening ? 'bg-red-500 animate-pulse shadow-lg shadow-red-500/50' : 'text-muted-foreground'} rounded-full p-1.5 transition-all duration-300`}
                     onClick={toggleSpeechRecognition}
                     title={isListening ? "Stop listening" : "Start listening"}
                   >

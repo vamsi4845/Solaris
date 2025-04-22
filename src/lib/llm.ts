@@ -49,6 +49,8 @@ export async function GPTResponse(chatHistory: Message[], savedWallets: SavedWal
                 "pump_fun",
                 "price",
                 "not_found",
+                "domain",
+                "stake",
               ],
             },
             amount: {
@@ -94,6 +96,10 @@ export async function GPTResponse(chatHistory: Message[], savedWallets: SavedWal
             message: {
               type: "string",
               description: "Response text for user",
+            },
+            domainName: {
+              type: "string",
+              description: "Domain name to register",
             },
             misc: {
               type: "boolean",

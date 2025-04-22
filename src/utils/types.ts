@@ -18,15 +18,42 @@ export interface TransactionHistoryProps {
   transactions: Transaction[];
 }
 
+export interface Portfolio {
+  address: string;
+    solBalance: {
+      amount: number;
+      valueUSD: number;
+    };
+    tokenHoldings: {
+      contractAddress: string;
+      symbol: string;
+      name: string;
+      amount: string;
+      decimals: number;
+      priceUSD: number;
+      valueUSD: number;
+    }[];
+    nftHoldings: number;
+    totalValueUSD: number;
+}
 
 export interface WalletData {
-  balance: number;
-  transactions: Transaction[]; 
-  price: number;
-  address: string;
+  transactions: Transaction[];
+  portfolio: Portfolio;
 }
 
 export interface SavedWallet {
   name: string;
   address: string;
+}
+
+
+export interface Token {
+  contractAddress?: string;
+  symbol?: string;
+  name?: string;
+  amount?: string;
+  decimals?: number;
+  priceUSD?: number;
+  valueUSD?: number;
 }

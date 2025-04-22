@@ -10,14 +10,14 @@ export function Wallet() {
     const { publicKey } = useWallet();
     const { connection } = useConnection();
     const { data: walletData, isLoading } = useWalletData(publicKey, connection);
-  
+    console.log("walletData", isLoading);
     if(isLoading){
       return <WalletSkeleton />;
     }
 
     return (
         <div className="flex flex-col gap-3">
-            <WalletUi walletData={walletData} />
+            <WalletUi portfolio={walletData?.portfolio} />
             <TransactionHistory transactions={walletData?.transactions ?? []} />
         </div>
     )

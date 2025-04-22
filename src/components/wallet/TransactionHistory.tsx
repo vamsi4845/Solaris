@@ -3,10 +3,12 @@
 import { motion } from "framer-motion";
 import { ScrollArea } from "@/components/scroll-area";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, Clock, AlertCircle } from "lucide-react";
+import { CheckCircle, Clock, AlertCircle, RefreshCw } from "lucide-react";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { TransactionHistoryProps, Transaction } from "@/utils/types";
 import { AnimatedList } from "@/components/magicui/animated-list";
+import { useState } from "react";
+import { Button } from "../ui/button";
 
 // Helper function to format timestamp
 const formatTime = (timestamp: number): string => {
@@ -26,8 +28,12 @@ const truncateSignature = (signature: string, length: number = 4): string => {
 };
 
 export function TransactionHistory({ transactions }: TransactionHistoryProps) {
+  const [listKey, setListKey] = useState(0); // 1. Add state for the key
 
-  console.log(transactions)
+  // 2. Add refresh handler
+  const handleRefresh = () => {
+    setListKey(prevKey => prevKey + 1);
+  };
   const getStatusIcon = (status: Transaction['confirmationStatus'], error: unknown | null) => {
     if (error) return <AlertCircle className="h-4 w-4 text-destructive" />;
     switch (status) {
@@ -43,8 +49,7 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
   };
 
   const TransactionItem = ({ tx }: { tx: Transaction }) => (
-    <motion.div
-      layout
+    <div
       className="flex items-center gap-2 p-1 rounded-lg transition-colors duration-150 w-full group" 
     >
       <div className="flex-shrink-0">
@@ -71,18 +76,31 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
       <span className="text-xs text-muted-foreground">
         {formatTime(tx.blockTime)}
       </span>
-    </motion.div>
+    </div>
   );
 
   return (
     <Card className="dark text-primary-foreground bg-card/64 h-full flex flex-col border-none shadow-none">
       <CardHeader className="!px-2 !py-1">
-        <CardTitle className="text-base font-medium text-muted-foreground">Recent Transactions</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base font-medium text-muted-foreground flex items-center gap-2">Recent Transactions
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleRefresh}
+            className="h-6 w-6 hover:bg-transparent"
+            aria-label="Refresh transaction list"
+          >
+            <RefreshCw className="h-3 w-3 text-muted-foreground" />
+          </Button>
+          </CardTitle>
+        </div>
       </CardHeader>
       <CardContent className="flex-1 p-0 overflow-hidden">
         <ScrollArea className="h-full px-4 pb-4">
           {transactions && transactions.length > 0 ? (
-            <AnimatedList delay={200}>
+            <AnimatedList key={listKey} delay={200}>
               {[...transactions].reverse().map((tx) => (
                 <TransactionItem key={tx.signature} tx={tx} />
               ))}
