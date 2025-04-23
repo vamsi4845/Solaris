@@ -12,9 +12,9 @@ export const metadata = {
   title: 'Solaris',
   description: 'Solaris - Your AI Trading Assistant',
   icons: {
-    icon: '/logo.png',
-    shortcut: '/logo.png',
-    apple: '/logo.png',
+    icon: '/logo2.png',
+    shortcut: '/logo2.png',
+    apple: '/logo2.png',
   },
 };
 

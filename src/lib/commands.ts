@@ -161,11 +161,7 @@ const handleSendCommand = async (data: CommandProps) => {
           "Sent " +
           amount +
           "SOL to " +
-          toPublicKey +
-          "\n\n" +
-          "check on [Explorer](https://solscan.io/tx/" +
-          signature +
-          "?cluster=mainnet)",
+          toPublicKey,
           action:"send",
         status: "success",
       };

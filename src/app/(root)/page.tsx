@@ -19,7 +19,7 @@ export default function Page() {
     <SidebarInset className="bg-sidebar group/sidebar-inset">
       <header className="dark flex h-16 shrink-0 items-center gap-2 px-4 md:px-6 lg:px-8 bg-[#222224] text-background relative before:absolute before:inset-y-3 before:-left-px before:w-px before:bg-gradient-to-b before:from-white/5 before:via-white/15 before:to-white/5 before:z-50">
       <div className="flex items-center gap-2">
-        <Image src="/logo.png" alt="Solaris" width={35} height={35} className="rounded-full" />
+        <Image src="/logo2.png" alt="Solaris" width={35} height={35} className="rounded-full" />
         <p className="text-2xl font-bold text-primary">Solaris</p>
       </div>
         <div className="flex items-center gap-8 ml-auto">

@@ -36,7 +36,7 @@ export function ChatMessage({ isUser, children }: ChatMessageProps) {
         src={
           isUser
             ? "/avatar.jpg"
-            : "/logo.png"
+            : "/logo2.png"
         }
         alt={isUser ? "User profile" : "Bart logo"}
         width={35}

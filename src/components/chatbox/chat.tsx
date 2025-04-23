@@ -285,7 +285,7 @@ export default function Chat() {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex items-center gap-2 text-muted-foreground rounded-full"
               >
-               <Image src="/logo.png" alt="logo" width={32} height={32} className="rounded-full" />
+               <Image src="/logo2.png" alt="logo" width={32} height={32} className="rounded-full" />
                 <div className="flex gap-1">
                   <motion.div
                     animate={{ y: [0, -5, 0] }}
