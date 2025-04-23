@@ -1,12 +1,21 @@
-# Simple Solana AI Agent
+# Solaris - Your AI Agent on Solana
 
-This project is a basic AI agent designed to interact with the Solana blockchain using natural language commands.
+Solaris is your AI-powered Solana agent that lets you explore and interact with the Solana blockchain using natural language. Fast, simple, and intuitive.
 
 ## Features
 
-- Execute simple Solana transactions via AI prompts.
-- Check wallet balance.
-- Retrieve wallet address.
+- **Send SOL:** Transfer SOL to another Solana address or a saved contact.
+- **Buy Tokens:** Purchase tokens using SOL (handles 'swap'/'trade' intentions).
+- **Stake SOL:** Delegate SOL to a validator.
+- **Check Balance:** View current SOL and other token balances.
+- **Get Address:** Display your wallet's public address.
+- **Create Token:** Guide through SPL token creation with defaults.
+- **Transaction Status:** Check the status of the last transaction.
+- **Recent Transactions:** List the last 5 transactions.
+- **Faucet:** Request test SOL for development/testing.
+- **Launch NFT:** Guide through launching a basic NFT collection.
+- **Check Price:** Get the current market price of a specified token.
+- **Handle Unrecognized Commands:** Provides guidance if a command isn't supported.
 
 ## Setup
 
@@ -21,21 +30,10 @@ This project is a basic AI agent designed to interact with the Solana blockchain
     npm install
     ```
 
-3.  **Configure environment variables:**
-    Create a `.env.local` file with your Solana private key, RPC URL, and OpenAI API key.
-    ```plaintext
-    SOLANA_PRIVATE_KEY="YOUR_PRIVATE_KEY"
-    SOLANA_RPC_URL="YOUR_RPC_URL"
-    OPENAI_API_KEY="YOUR_OPENAI_KEY"
-    ```
-
-4.  **Run the development server:**
+3.  **Run the development server:**
     ```sh
     npm run dev
     ```
 
 Access the agent at `http://localhost:3000`.
 
-## Disclaimer
-
-This is a simple example project. Use with caution, especially with real private keys.
